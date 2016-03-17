@@ -69,7 +69,7 @@ function logTemp(interval){
 };
 
 /* GET temperatures scan. */
-router.get('/', function(req, res, next) {
+router.get('/sondes', function(req, res, next) {
   //res.send('respond with a resource');
   
   readTemp(function(data){
