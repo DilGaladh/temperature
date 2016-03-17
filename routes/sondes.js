@@ -79,6 +79,16 @@ router.get('/', function(req, res, next) {
   //res.render('index', { title: 'Temperatures', content: collection, dd1: "var dd1 = [0,8,4,5,6];" });
 });
 
+router.get('/current', function(req, res, next) {
+  //res.send('respond with a resource');
+  
+  readTemp(function(data){
+    res.status(200).send(JSON.stringify(data));	
+  });
+  
+  res.render('layoutgauge', { title: 'Temperatures', content: collection, dd1: "var dd1 = [0,8,4,5,6];" });
+});
+
 module.exports = router;
 
 // Start temperature logging (every 1 min).
