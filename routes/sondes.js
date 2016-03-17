@@ -83,10 +83,10 @@ router.get('/current', function(req, res, next) {
   //res.send('respond with a resource');
   
   readTemp(function(data){
-    res.status(200).send(JSON.stringify(data));	
+    res.render('layoutgauge', { title: 'Temperatures', content: collection, series: data, dd1: "var dd1 = [0,8,4,5,6];" });
   });
   
-  res.render('layoutgauge', { title: 'Temperatures', content: collection, dd1: "var dd1 = [0,8,4,5,6];" });
+  
 });
 
 module.exports = router;
