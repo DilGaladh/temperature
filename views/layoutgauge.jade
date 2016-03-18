@@ -7,8 +7,6 @@ html
     script(src="http://code.highcharts.com/highcharts.js")
     script(src="http://code.highcharts.com/highcharts-more.js")
   body
-    script= dd1
-    script= series
     block content
     div(id='container' style={width:'100%',height:'600px'})
     script(type="text/javascript").
@@ -22,11 +20,9 @@ html
             plotBorderWidth: 0,
             plotShadow: false
         },
-
         title: {
             text: 'Speedometer'
         },
-
         pane: {
             startAngle: -150,
             endAngle: 150,
@@ -59,7 +55,6 @@ html
                 innerRadius: '103%'
             }]
         },
-
         // the value axis
         yAxis: {
             min: 0,
@@ -97,7 +92,6 @@ html
                 color: '#DF5353' // red
             }]
         },
-
         series: [{
             name: 'Température',
             data: [80],
@@ -105,9 +99,7 @@ html
                 valueSuffix: '°C'
             }
         }]
-
     },
-    // Add some life
     function(chart) {
       if (!chart.renderer.forExport) {
         setInterval(function() {
@@ -131,6 +123,5 @@ html
         }, 5000);
       }
     });
-        },
-      });
-     });
+   });
+   });
