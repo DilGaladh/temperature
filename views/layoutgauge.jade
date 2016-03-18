@@ -107,32 +107,30 @@ html
         }]
 
     },
-            events : {
-                      load : function() {
-                              var series = this.series;
-                              setInterval(function(){
-                                          var xhttp = new XMLHttpRequest();
-                                          xhttp.onreadystatechange = function() {
-                                               if (xhttp.readyState == XMLHttpRequest.DONE ) {
-                                                   if(xhttp.status == 200){
-                                                        var data = JSON.parse(xhttp.responseText);
-                                                        var date = new Date(data.date).getTime();
-							var point = chart.series[0].points[0];
-							point.update(data.data.sonde1);
-                                                   }
-                                                   else if(xhttp.status == 400) {
-                                                        alert('There was an error 400')
-                                                   }
-                                                   else {
-                                                        alert('something else other than 200 was returned')
-                                                   }
-                                                }
-                                         };
-                                  xhttp.open("GET", "sondes", true);
-                                  xhttp.send();
-                              },5000);
-                            }
-                     }
+    // Add some life
+    function(chart) {
+      if (!chart.renderer.forExport) {
+        setInterval(function() {
+          var xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function() {
+            if (xhttp.readyState == XMLHttpRequest.DONE) {
+              if (xhttp.status == 200) {
+                var data = JSON.parse(xhttp.responseText);
+                var date = new Date(data.date).getTime();
+                var point = chart.series[0].points[0];
+                point.update(data.data.sonde1);
+              } else if (xhttp.status == 400) {
+                alert('There was an error 400');
+              } else {
+                alert('something else other than 200 was returned ' + xhttp.status);
+              }
+            }
+          };
+          xhttp.open("GET", "sondes", true);
+          xhttp.send();
+        }, 5000);
+      }
+    });
         },
       });
      });
