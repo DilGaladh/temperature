@@ -7,7 +7,10 @@ $(function () {
             plotBackgroundColor: null,
             plotBackgroundImage: null,
             plotBorderWidth: 0,
-            plotShadow: false
+            plotShadow: true,
+			animation:{
+				duration:5000
+			}
         },
 
         title: {
@@ -97,14 +100,14 @@ $(function () {
 
         series: [{
             name: 'Température',
-            data: [80],
+            data: [0],
             tooltip: {
                 valueSuffix: ' °C'
 			}
 			},
 			{
 				name: 'Température',
-				data: [90],
+				data: [0],
 				tooltip: {
 					valueSuffix: ' °C'
 				}
@@ -112,7 +115,7 @@ $(function () {
 			,
 			{
 				name: 'Température',
-				data: [90],
+				data: [0],
 				tooltip: {
 					valueSuffix: ' °C'
 				}
@@ -120,7 +123,7 @@ $(function () {
 			,
 			{
 				name: 'Température',
-				data: [90],
+				data: [0],
 				tooltip: {
 					valueSuffix: ' °C'
 				}
