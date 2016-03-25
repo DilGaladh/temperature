@@ -1,16 +1,19 @@
-$(function () { 
-      $('#container').highcharts({
+$(function () {
+
+    $('#container').highcharts({
+
         chart: {
-            chart: {
             type: 'gauge',
             plotBackgroundColor: null,
             plotBackgroundImage: null,
             plotBorderWidth: 0,
             plotShadow: false
         },
+
         title: {
-            text: 'Speedometer'
+            text: 'Températures'
         },
+
         pane: {
             startAngle: -150,
             endAngle: 150,
@@ -43,9 +46,10 @@ $(function () {
                 innerRadius: '103%'
             }]
         },
+
         // the value axis
         yAxis: {
-            min: 0,
+            min: -20,
             max: 100,
 
             minorTickInterval: 'auto',
@@ -67,49 +71,91 @@ $(function () {
                 text: '°C'
             },
             plotBands: [{
+                from: -20,
+                to: 0,
+                color: '#00BFFF' // blue
+            }, {
                 from: 0,
-                to: 15,
-                color: '#55BF3B' // green
+                to: 10,
+                color: '#00FF00' // green
             }, {
-                from: 15,
-                to: 40,
-                color: '#DDDF0D' // yellow
+                from: 10,
+                to: 20,
+                color: '#F7FE2E' // yellow
+            }
+			, {
+                from: 20,
+                to: 28,
+                color: '#FF8000' // orange
+				
             }, {
-                from: 40,
+                from: 28,
                 to: 100,
-                color: '#DF5353' // red
+                color: '#FF0000' // red
             }]
         },
+
         series: [{
             name: 'Température',
             data: [80],
             tooltip: {
-                valueSuffix: '°C'
-            }
-        }]
+                valueSuffix: ' °C'
+			}
+			},
+			{
+				name: 'Température',
+				data: [90],
+				tooltip: {
+					valueSuffix: ' °C'
+				}
+			}
+			,
+			{
+				name: 'Température',
+				data: [90],
+				tooltip: {
+					valueSuffix: ' °C'
+				}
+			}
+			,
+			{
+				name: 'Température',
+				data: [90],
+				tooltip: {
+					valueSuffix: ' °C'
+				}
+			}]
+
     },
-    function(chart){
-      if (!chart.renderer.forExport) {
-        setInterval(function() {
-          var xhttp = new XMLHttpRequest();
-          xhttp.onreadystatechange = function() {
-            if (xhttp.readyState == XMLHttpRequest.DONE) {
-              if (xhttp.status == 200) {
-                var data = JSON.parse(xhttp.responseText);
-                var date = new Date(data.date).getTime();
-                var point = chart.series[0].points[0];
-                point.update(data.data.sonde1);
-              } else if (xhttp.status == 400) {
-                alert('There was an error 400');
-              } else {
-                alert('something else other than 200 was returned ' + xhttp.status);
-              }
-            }
-          };
-          xhttp.open("GET", "sondes", true);
-          xhttp.send();
-        }, 5000);
-      }
+	
+    // Add some life
+    function (chart) {
+        if (!chart.renderer.forExport) {
+            setInterval(function () {
+                var xhttp = new XMLHttpRequest();
+				  xhttp.onreadystatechange = function() {
+					if (xhttp.readyState == XMLHttpRequest.DONE) {
+					  if (xhttp.status == 200) {
+						var data = JSON.parse(xhttp.responseText);
+						var date = new Date(data.date).getTime();
+						var point1 = chart.series[0].points[0];
+						var point2 = chart.series[1].points[0];
+						var point3 = chart.series[2].points[0];
+						var point4 = chart.series[3].points[0];
+						point1.update(data.data.sonde1);
+						point2.update(data.data.sonde2);
+						point3.update(data.data.sonde3);
+						point4.update(data.data.sonde4);
+					  } else if (xhttp.status == 400) {
+						alert('There was an error 400');
+					  } else {
+						alert('something else other than 200 was returned ' + xhttp.status);
+					  }
+					}
+				  };
+				  xhttp.open("GET", "/sondes", true);
+				  xhttp.send();
+            }, 3000);
+        }
     });
-   });
 });
