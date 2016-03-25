@@ -18,7 +18,7 @@ html
             animation: { duration: 5000},
             events : {
                       load : function() {
-                              var series = this.series;
+                              var series = this.series |[];
                               setInterval(function(){
                                           var xhttp = new XMLHttpRequest();
                                           xhttp.onreadystatechange = function() {
@@ -32,10 +32,10 @@ html
                                                         series[3].addPoint([date,data.data.sonde4],true,true);
                                                    }
                                                    else if(xhttp.status == 400) {
-                                                        alert('There was an error 400')
+                                                       // alert('There was an error 400')
                                                    }
                                                    else {
-                                                        alert('something else other than 200 was returned')
+                                                       // alert('something else other than 200 was returned')
                                                    }
                                                 }
                                          };

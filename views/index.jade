@@ -4,4 +4,6 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
+  p Bienvenue, #{title}
+  div: a(class='button',href='/sondes/current') température en direct
+  div: a(class='button',href='/temperatures') graphique des températures
