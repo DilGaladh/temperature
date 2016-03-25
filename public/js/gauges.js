@@ -14,7 +14,7 @@ $(function () {
         },
 
         title: {
-            text: 'Températures'
+            text: 'TempÃ©ratures'
         },
 
         pane: {
@@ -57,21 +57,21 @@ $(function () {
 
             minorTickInterval: 'auto',
             minorTickWidth: 1,
-            minorTickLength: 10,
+            minorTickLength: 8,
             minorTickPosition: 'inside',
             minorTickColor: '#666',
 
-            tickPixelInterval: 30,
+            tickPixelInterval: 60,
             tickWidth: 2,
             tickPosition: 'inside',
-            tickLength: 10,
+            tickLength: 12,
             tickColor: '#666',
             labels: {
-                step: 2,
-                rotation: 'auto'
+                step: 1,
+                rotation: 'none'
             },
             title: {
-                text: '°C'
+                text: 'TempÃ©ratures en Â°C'
             },
             plotBands: [{
                 from: -20,
@@ -99,33 +99,33 @@ $(function () {
         },
 
         series: [{
-            name: 'Température',
+            name: 'TempÃ©rature',
             data: [0],
             tooltip: {
-                valueSuffix: ' °C'
+                valueSuffix: ' Â°C'
 			}
 			},
 			{
-				name: 'Température',
+				name: 'TempÃ©rature',
 				data: [0],
 				tooltip: {
-					valueSuffix: ' °C'
+					valueSuffix: ' Â°C'
 				}
 			}
 			,
 			{
-				name: 'Température',
+				name: 'TempÃ©rature',
 				data: [0],
 				tooltip: {
-					valueSuffix: ' °C'
+					valueSuffix: ' Â°C'
 				}
 			}
 			,
 			{
-				name: 'Température',
+				name: 'TempÃ©rature',
 				data: [0],
 				tooltip: {
-					valueSuffix: ' °C'
+					valueSuffix: ' Â°C'
 				}
 			}]
 
@@ -150,9 +150,9 @@ $(function () {
 						point3.update(data.data.sonde3);
 						point4.update(data.data.sonde4);
 					  } else if (xhttp.status == 400) {
-						alert('There was an error 400');
+						//alert('There was an error 400');
 					  } else {
-						alert('something else other than 200 was returned ' + xhttp.status);
+						//alert('something else other than 200 was returned ' + xhttp.status);
 					  }
 					}
 				  };
