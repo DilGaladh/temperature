@@ -2,8 +2,21 @@ extends layout
 
 
 
+
 block content
+  script(src="/js/jquery-ui-1.11.4/jquery-ui.min.js")
   h1= title
   p Bienvenue, #{title}
   div: a(class='button',href='/sondes/current') température en direct
   div: a(class='button',href='/temperatures') graphique des températures
+  div(id="datepicker")
+  script(type="text/javascript").
+   $(function() {
+     $( "#datepicker" ).datepicker(
+     {
+        onSelect: function( selectedDate ) {
+           window.location.href = "/temperatures?date=" + selectedDate;
+      }
+     });
+   });
+   

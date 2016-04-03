@@ -37,38 +37,43 @@ var insertDocument = function(db, callback) {
 
 /* GET temperatures listing. */
 router.get('/', function(req, res, next) {
+	console.log(req.query.date);
+	var date = Date.UTC(req.query.date);
   //res.send('respond with a resource');
   var collection = db.collection('temperatures');
 collection.createIndex({date: -1}, {background: true});
   var series = 'var series = [';
-  var cursor = collection.find().sort({date:-1}).limit(60*24); // 24 hours * 60 minutes
+  var cursor = collection.find({date:{ $gt: date, $lt: date+3600*24 }}).sort({date:-1}).limit(60*24); // 24 hours * 60 minutes
 	/*res.send(collection);*/
 	//console.log("test:"+test);
         //console.log("collection:"+collection);
 	var docs = cursor.toArray(function(err, docs){
 		//console.log(JSON.stringify(docs));
 		//console.log("docs:"+docs);
-		docs.reverse();
-		var serie = new Object();
-		for(var cpt=0;cpt<4;cpt++){
-			serie[cpt] = "{name:'sonde"+(cpt+1)+"',data:[";
-			for(var doc in docs){
-				//console.log(doc+" doc:"+docs[doc]);
-				var dataArray = docs[doc].data;
-				//console.log("dataArray:"+dataArray);
-				var keys = Object.keys(dataArray);
-				serie[cpt] += "["+JSON.stringify(docs[doc].date.getTime())+","+JSON.stringify(dataArray[keys[cpt]])+"],";
+		if(docs != null){
+			docs.reverse();
+			var serie = new Object();
+			for(var cpt=0;cpt<4;cpt++){
+				serie[cpt] = "{name:'sonde"+(cpt+1)+"',data:[";
+				for(var doc in docs){
+					//console.log(doc+" doc:"+docs[doc]);
+					var dataArray = docs[doc].data;
+					//console.log("dataArray:"+dataArray);
+					var keys = Object.keys(dataArray);
+					serie[cpt] += "["+JSON.stringify(docs[doc].date.getTime())+","+JSON.stringify(dataArray[keys[cpt]])+"],";
+				}
+				serie[cpt] += "]},";
 			}
-			serie[cpt] += "]},";
+			//console.log(serie);
+			// concatenate all
+			series+=serie[0]+serie[1]+serie[2]+serie[3];
+			console.log("docs size:"+docs.length);
 		}
-		//console.log(serie);
-		// concatenate all
-		series+=serie[0]+serie[1]+serie[2]+serie[3];
 		series += ']';
-		//console.log("series:"+series);
-	  	res.render('index', { title: 'Temperatures', content: "salut", series: series ,dd1: "var dd1 = [0,8,4,5,6];" });
-	  	//console.log(docs);
-		console.log("docs size:"+docs.length);
+			//console.log("series:"+series);
+			res.render('index', { title: 'Temperatures', content: "salut", series: series ,dd1: "var dd1 = [0,8,4,5,6];" });
+			//console.log(docs);
+			
 		db.close();
 	});
 		
