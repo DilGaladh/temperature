@@ -37,13 +37,15 @@ var insertDocument = function(db, callback) {
 
 /* GET temperatures listing. */
 router.get('/', function(req, res, next) {
-	console.log(req.query.date);
-	var date = Date.UTC(req.query.date);
+	
+	var date = Date.parse(req.query.date);
+	var datePlus1 = date+3600*24;
+	console.log(req.query.date,date,datePlus1);
   //res.send('respond with a resource');
   var collection = db.collection('temperatures');
 collection.createIndex({date: -1}, {background: true});
   var series = 'var series = [';
-  var cursor = collection.find({date:{ $gt: date, $lt: date+3600*24 }}).sort({date:-1}).limit(60*24); // 24 hours * 60 minutes
+  var cursor = collection.find({date:{ $gt: date, $lt: datePlus1 }}).sort({date:-1}).limit(60*24); // 24 hours * 60 minutes
 	/*res.send(collection);*/
 	//console.log("test:"+test);
         //console.log("collection:"+collection);
