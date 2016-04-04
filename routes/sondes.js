@@ -13,7 +13,12 @@ Engine.connect(url, function(err, db) {
   db.close();
 });
 
-var db = new Engine.connect(url, {});
+var db = new Engine.connect(url, function(err, ldb) {
+  assert.equal(null, err);
+  console.log("Connected correctly to server.");
+  ldb.close();
+});
+
 console.log("db,",db);
 
 //var Engine = require('mongodb')();
