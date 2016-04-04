@@ -5,7 +5,7 @@ var router = express.Router();
 // database
 
 var Engine = require('mongodb').MongoClient;
-var url = 'mongodb://78.194.2.2:27017/local';
+var url = 'mongodb://localhost:27017/local';
 Engine.connect(url, function(err, db) {
   assert.equal(null, err);
   console.log("Connected correctly to server.");

@@ -6,7 +6,7 @@ var express = require('express');
 var router = express.Router();
 
 var Engine = require('mongodb').MongoClient;
-var url = 'mongodb://78.194.2.2:27017/local';
+var url = 'mongodb://localhost:27017/local';
 Engine.connect(url, function(err, db) {
   assert.equal(null, err);
   console.log("Connected correctly to server.");
@@ -14,6 +14,7 @@ Engine.connect(url, function(err, db) {
 });
 
 var db = new Engine.connect(url, {});
+console.log("db,",db);
 
 //var Engine = require('mongodb')();
 //var db = new Engine.Db('./data/', {});
@@ -62,6 +63,7 @@ function readTemp(callback){
 };
 
 function insertTemp(data){
+	
 	var collection = db.collection('temperatures');
 	//console.log(collection);
 	//collection.insert({'a':1})
