@@ -5,7 +5,7 @@ var http = require('http');
 var express = require('express');
 var router = express.Router();
 
-var Engine = require('tingodb')();
+var Engine = require('mongodb')();
 var db = new Engine.Db('./data/', {});
 
 // Read current temperature from sensor

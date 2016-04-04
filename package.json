@@ -12,10 +12,22 @@
     "express": "~4.13.1",
     "highcharts": "^4.2.3",
     "jade": "~1.11.0",
-    "mongodb": "^2.1.7",
+    "mongodb": "^2.1.14",
     "morgan": "~1.6.1",
     "serve-favicon": "~2.3.0",
     "supervisor": "^0.9.1",
     "tingodb": "^0.4.2"
-  }
+  },
+  "description": "get temperature from sensors and record them on a website",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DilGaladh/temperature.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DilGaladh/temperature/issues"
+  },
+  "homepage": "https://github.com/DilGaladh/temperature#readme"
 }
