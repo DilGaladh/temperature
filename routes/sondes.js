@@ -5,8 +5,18 @@ var http = require('http');
 var express = require('express');
 var router = express.Router();
 
-var Engine = require('mongodb')();
-var db = new Engine.Db('./data/', {});
+var Engine = require('mongodb').MongoClient;
+var url = 'mongodb://78.194.2.2:27017/local';
+Engine.connect(url, function(err, db) {
+  assert.equal(null, err);
+  console.log("Connected correctly to server.");
+  db.close();
+});
+
+var db = new Engine.connect(url, {});
+
+//var Engine = require('mongodb')();
+//var db = new Engine.Db('./data/', {});
 
 // Read current temperature from sensor
 function readTemp(callback){

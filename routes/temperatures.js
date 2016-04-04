@@ -4,9 +4,15 @@ var router = express.Router();
 
 // database
 
-var Engine = require('mongodb')();
+var Engine = require('mongodb').MongoClient;
+var url = 'mongodb://78.194.2.2:27017/local';
+Engine.connect(url, function(err, db) {
+  assert.equal(null, err);
+  console.log("Connected correctly to server.");
+  db.close();
+});
 
-var db = new Engine.Db('./data/', {});
+var db = new Engine.connect(url, {});
 
 // insertion test
 var insertDocument = function(db, callback) {
