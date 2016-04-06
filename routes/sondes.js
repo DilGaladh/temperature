@@ -4,22 +4,11 @@ var util = require('util');
 var http = require('http');
 var express = require('express');
 var router = express.Router();
+var assert = require('assert');
 
 var Engine = require('mongodb').MongoClient;
 var url = 'mongodb://localhost:27017/local';
-Engine.connect(url, function(err, db) {
-  assert.equal(null, err);
-  console.log("Connected correctly to server.");
-  db.close();
-});
 
-var db = new Engine.connect(url, function(err, ldb) {
-  assert.equal(null, err);
-  console.log("Connected correctly to server.");
-  ldb.close();
-});
-
-console.log("db,",db);
 
 //var Engine = require('mongodb')();
 //var db = new Engine.Db('./data/', {});
@@ -31,10 +20,14 @@ function readTemp(callback){
 			name: "test",
 			date: new Date(),
 			data: {
-				sonde1 : 0,
-				sonde2 : 0,
-				sonde3 : 0,
-				sonde4 : 0,
+				 sonde1 : 0,
+				 sonde2 : 0,
+				 sonde3 : 0,
+				 sonde4 : 0,
+				//sonde1 : 20*Math.random(),
+				//sonde2 : 20*Math.random(),
+				//sonde3 : 20*Math.random(),
+				//sonde4 : 20*Math.random(),
 			}
 
 		}
@@ -68,13 +61,17 @@ function readTemp(callback){
 };
 
 function insertTemp(data){
+	Engine.connect(url, function(err, db) {
+	  assert.equal(null, err);
+	  console.log("Connected correctly to server.");
+	  var collection = db.collection('temperatures');
+		//console.log(collection);
+		//collection.insert({'a':1})
+		console.log("data:"+JSON.stringify(data));
+		collection.insert(data);
+		db.close();
+	});
 	
-	var collection = db.collection('temperatures');
-	//console.log(collection);
-	//collection.insert({'a':1})
-	console.log("data:"+JSON.stringify(data));
-	collection.insert(data);
-	db.close();
 }
 
 // Create a wrapper function which we'll use specifically for logging
