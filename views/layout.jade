@@ -20,7 +20,7 @@ html
             events : {
                       load : function() {
                               var series = this.series |[];
-                              setInterval(function(){
+                              setInterval(function(series){
                                           var xhttp = new XMLHttpRequest();
                                           xhttp.onreadystatechange = function() {
                                                if (xhttp.readyState == XMLHttpRequest.DONE ) {
