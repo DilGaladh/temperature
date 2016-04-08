@@ -19,18 +19,19 @@ html
             animation: { duration: 5000},
             events : {
                       load : function() {
-                              var series = this.series |[];
-                              setInterval(function(series){
+                              var thatSeries = this.series;
+                              setInterval(function(){
+                                          
                                           var xhttp = new XMLHttpRequest();
                                           xhttp.onreadystatechange = function() {
                                                if (xhttp.readyState == XMLHttpRequest.DONE ) {
                                                    if(xhttp.status == 200){
                                                         var data = JSON.parse(xhttp.responseText);
                                                         var date = new Date(data.date).getTime();
-                                                        series[0].addPoint([date,data.data.sonde1],true,true);
-                                                        series[1].addPoint([date,data.data.sonde2],true,true);
-                                                        series[2].addPoint([date,data.data.sonde3],true,true);
-                                                        series[3].addPoint([date,data.data.sonde4],true,true);
+                                                        thatSeries[0].addPoint([date,data.data.sonde1],true,true);
+                                                        thatSeries[1].addPoint([date,data.data.sonde2],true,true);
+                                                        thatSeries[2].addPoint([date,data.data.sonde3],true,true);
+                                                        thatSeries[3].addPoint([date,data.data.sonde4],true,true);
                                                    }
                                                    else if(xhttp.status == 400) {
                                                        // alert('There was an error 400')
