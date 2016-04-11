@@ -86,8 +86,8 @@ router.get('/', function(req, res, next) {
 	//console.log("test:"+test);
         //console.log("collection:"+collection);
 	var docs = cursor.toArray(function(err, docs){
-		console.log(JSON.stringify(docs));
-		console.log("docs:"+docs);
+		//console.log(JSON.stringify(docs));
+		//console.log("docs:"+docs);
 		if(docs != null){
 			docs.reverse();
 			var serie = new Object();
