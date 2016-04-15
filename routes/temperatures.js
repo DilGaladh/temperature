@@ -85,6 +85,7 @@ router.get('/', function(req, res, next) {
 	/*res.send(collection);*/
 	//console.log("test:"+test);
         //console.log("collection:"+collection);
+		var labels = ["Soleil","Sous-sol","Extérieur","Tuyau"];
 	var docs = cursor.toArray(function(err, docs){
 		//console.log(JSON.stringify(docs));
 		//console.log("docs:"+docs);
@@ -92,7 +93,7 @@ router.get('/', function(req, res, next) {
 			docs.reverse();
 			var serie = new Object();
 			for(var cpt=0;cpt<4;cpt++){
-				serie[cpt] = "{name:'sonde"+(cpt+1)+"',data:[";
+				serie[cpt] = "{name:'"+labels[(cpt)]+"',data:[";
 				for(var doc in docs){
 					//console.log(doc+" doc:"+docs[doc]);
 					var dataArray = docs[doc].data;
