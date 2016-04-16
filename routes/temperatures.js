@@ -74,7 +74,7 @@ router.get('/', function(req, res, next) {
   var collection = db.collection('temperatures');
 //collection.createIndex({date: -1}, {background: true});
   var series = 'var series = [';
-  var cursor = collection.find({"date":{ "$gte": dateStart, "$lt":dateEnd}}).sort({"date":-1});
+  var cursor = collection.find({"date":{ "$gte": dateStart, "$lt":dateEnd}}).sort({"date":-1}).limit(500000000);
   //var cursor = collection.find( );
   // cursor.each(function(err, doc) {
       // assert.equal(err, null);
