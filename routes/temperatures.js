@@ -42,39 +42,39 @@ var insertDocument = function(db, callback) {
 
 /* GET temperatures listing. */
 router.get('/', function(req, res, next) {
-	
-/*	var findRestaurants = function(db, callback) {
-   var cursor =db.collection('temperatures').find( );
-   cursor.each(function(err, doc) {
-      assert.equal(err, null);
-      if (doc != null) {
-         console.dir(doc);
-      } else {
-         callback();
-      }
-   });
-};
-	Engine.connect(url, function(err, db) {
-  assert.equal(null, err);
-  findRestaurants(db, function() {
-      db.close();
-  });
-});*/
-	
-	
+		
 	Engine.connect(url, function(err, db) {
 	  assert.equal(null, err);
 	  console.log("Connected correctly to server.");
-  
-
-	var dateT = new Date(Date.parse(req.query.date));
-	var datePlus1 = new Date(Date.parse(req.query.date)+3600*1000*24);
-	console.log(req.query.date,dateT,datePlus1);
+	// Date parsing
+	var dateStart = null;
+	var dateEnd = null;
+	if(req.query.date == "month"){
+		dateStart = new Date();
+		dateStart.setDate(1);
+		dateStart.setHours(0);
+		dateStart.setMinutes(0);
+		dateStart.setMilliseconds(0);
+		dateStart.setSeconds(0);
+		dateEnd = new Date();
+	}else{
+		dateStart = new Date(Date.parse(req.query.date));
+		if(req.query.date == undefined)
+		{
+			dateStart = new Date();
+			dateStart.setHours(0);
+			dateStart.setMinutes(0);
+			dateStart.setMilliseconds(0);
+			dateStart.setSeconds(0);
+		}
+		dateEnd = new Date(dateStart.getTime() + 3600*1000*24);
+	}
+	console.log(req.query.date,dateStart,dateEnd);
   //res.send('respond with a resource');
   var collection = db.collection('temperatures');
 //collection.createIndex({date: -1}, {background: true});
   var series = 'var series = [';
-  var cursor = collection.find({"date":{ "$gte": dateT, "$lt":datePlus1}}).sort({"date":-1});
+  var cursor = collection.find({"date":{ "$gte": dateStart, "$lt":dateEnd}}).sort({"date":-1});
   //var cursor = collection.find( );
   // cursor.each(function(err, doc) {
       // assert.equal(err, null);
