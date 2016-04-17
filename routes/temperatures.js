@@ -36,6 +36,16 @@ var insertDocument = function(db, callback) {
 	});
 };
 
+/*for(var i = 0; i<2000;i++){
+	Engine.connect(url, function(err, db) {
+	  assert.equal(null, err);
+	  console.log("Connected correctly to server.");
+	  insertDocument(db, function(r){db.close();});
+	  
+	});
+}*/
+	
+
 /*insertDocument(db, function(){
 	db.close();
 });*/
@@ -74,7 +84,8 @@ router.get('/', function(req, res, next) {
   var collection = db.collection('temperatures');
 //collection.createIndex({date: -1}, {background: true});
   var series = 'var series = [';
-  var cursor = collection.find({"date":{ "$gte": dateStart, "$lt":dateEnd}}).sort({"date":-1}).limit(500000000);
+  var cursor = collection.find({"date":{ "$gte": dateStart, "$lt":dateEnd}}).sort({"date":-1}).limit(500000);
+  cursor.count(0,null,function(err,c){console.log("count:",c);});
   //var cursor = collection.find( );
   // cursor.each(function(err, doc) {
       // assert.equal(err, null);
