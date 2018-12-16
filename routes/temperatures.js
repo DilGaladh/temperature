@@ -96,7 +96,7 @@ router.get('/', function(req, res, next) {
 	/*res.send(collection);*/
 	//console.log("test:"+test);
         //console.log("collection:"+collection);
-		var labels = ["Soleil","Sous-sol","Extérieur","Tuyau"];
+		var labels = ["Temperature","Humidité","invalide","invalide"];
 	var docs = cursor.toArray(function(err, docs){
 		//console.log(JSON.stringify(docs));
 		//console.log("docs:"+docs);
