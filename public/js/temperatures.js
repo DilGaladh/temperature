@@ -33,7 +33,7 @@ $(function () {
                                                    }
                                                 }
                                          };
-                                  xhttp.open("GET", "sondes", true);
+                                  xhttp.open("GET", "sondedht11", true);
                                   xhttp.send();
                               },10000);
                             }

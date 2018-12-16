@@ -14,7 +14,7 @@ $(function () {
         },
 
         title: {
-            text: 'Températures'
+            text: 'Températures & Humidité'
         },
 
         pane: {
@@ -106,10 +106,10 @@ $(function () {
 			}
 			},
 			{
-				name: 'Température',
+				name: 'Humidité',
 				data: [0],
 				tooltip: {
-					valueSuffix: ' °C'
+					valueSuffix: ' %'
 				}
 			}
 			,
@@ -156,7 +156,7 @@ $(function () {
 					  }
 					}
 				  };
-				  xhttp.open("GET", "/sondes", true);
+				  xhttp.open("GET", "/sondedht11", true);
 				  xhttp.send();
             }, 3000);
         }
