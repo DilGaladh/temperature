@@ -1,1 +1,1 @@
-supervisor --debug ./bin/www
+supervisor --inspect ./bin/www
