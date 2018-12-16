@@ -9,8 +9,8 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var temperatures = require('./routes/temperatures');
 var sondes = require('./routes/sondes');
-var temperaturesdht11 = require('./routes/temperatures');
-var sondedht11 = require('./routes/sondes');
+var temperaturesdht11 = require('./routes/temperaturesdht11');
+var sondedht11 = require('./routes/sondedht11');
 
 var app = express();
 
