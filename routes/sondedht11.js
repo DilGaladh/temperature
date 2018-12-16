@@ -37,7 +37,7 @@ function readTemp(callback){
 			  if(buffer != undefined){
 				  // Read data from file (using fast node ASCII encoding).
 				  var data = buffer.toString('ascii');
-				  var jdata = JSON.parse{data};
+				  var jdata = JSON.parse(data);
 			
 				  // Add date/time to temperature
 				  sondesData.data['sonde0'] = jdata.temperature;
@@ -48,7 +48,7 @@ function readTemp(callback){
 	
 	// Execute call back with data
 	callback(sondesData);
-   });
+   
    
 };
 
