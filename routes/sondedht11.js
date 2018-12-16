@@ -40,8 +40,8 @@ function readTemp(callback){
 				  var jdata = JSON.parse(data);
 			
 				  // Add date/time to temperature
-				  sondesData.data['sonde0'] = jdata.temperature;
-				  sondesData.data['sonde1'] = jdata.humidity;
+				  sondesData.data['sonde1'] = jdata.temperature;
+				  sondesData.data['sonde2'] = jdata.humidity;
 			}			
 			  
 		}
