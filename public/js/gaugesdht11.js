@@ -112,22 +112,23 @@ $(function () {
 					valueSuffix: ' %'
 				}
 			}
-			,
-			{
-				name: 'Température',
-				data: [0],
-				tooltip: {
-					valueSuffix: ' °C'
-				}
-			}
-			,
-			{
-				name: 'Température',
-				data: [0],
-				tooltip: {
-					valueSuffix: ' °C'
-				}
-			}]
+			// ,
+			// {
+			// 	name: 'Température',
+			// 	data: [0],
+			// 	tooltip: {
+			// 		valueSuffix: ' °C'
+			// 	}
+			// }
+			// ,
+			// {
+			// 	name: 'Température',
+			// 	data: [0],
+			// 	tooltip: {
+			// 		valueSuffix: ' °C'
+			// 	}
+            // }
+        ]
 
     },
 	
@@ -143,12 +144,12 @@ $(function () {
 						var date = new Date(data.date).getTime();
 						var point1 = chart.series[0].points[0];
 						var point2 = chart.series[1].points[0];
-						var point3 = chart.series[2].points[0];
-						var point4 = chart.series[3].points[0];
+						//var point3 = chart.series[2].points[0];
+						//var point4 = chart.series[3].points[0];
 						point1.update(data.data.sonde1);
 						point2.update(data.data.sonde2);
-						point3.update(data.data.sonde3);
-						point4.update(data.data.sonde4);
+						//point3.update(data.data.sonde3);
+						//point4.update(data.data.sonde4);
 					  } else if (xhttp.status == 400) {
 						//alert('There was an error 400');
 					  } else {

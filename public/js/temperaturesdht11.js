@@ -12,6 +12,7 @@ $(function () {
             events : {
                       load : function() {
                               var thatSeries = this.series;
+                              
                               setInterval(function(){
                                           
                                           var xhttp = new XMLHttpRequest();
@@ -22,8 +23,8 @@ $(function () {
                                                         var date = new Date(data.date).getTime();
                                                         thatSeries[0].addPoint([date,data.data.sonde1],true,true);
                                                         thatSeries[1].addPoint([date,data.data.sonde2],true,true);
-                                                        thatSeries[2].addPoint([date,data.data.sonde3],true,true);
-                                                        thatSeries[3].addPoint([date,data.data.sonde4],true,true);
+                                                        //thatSeries[2].addPoint([date,data.data.sonde3],true,true);
+                                                        //thatSeries[3].addPoint([date,data.data.sonde4],true,true);
                                                    }
                                                    else if(xhttp.status == 400) {
                                                        // alert('There was an error 400')
@@ -35,24 +36,42 @@ $(function () {
                                          };
                                   xhttp.open("GET", "sondedht11", true);
                                   xhttp.send();
-                              },10000);
+                              },60000);
                             }
                      }
         },
         title: {
-            text: 'Sondes de température'
+            text: 'Sonde de température et humidité'
         },
-        yAxis: {
+        yAxis:[{ // primary axis
             title: {
-                text: 'Température'
+                text: 'Température',
+                style: {
+                    color: Highcharts.getOptions().colors[0]
+                }
             },
 			labels: {
                 format: '{value}°C',
                 style: {
-                    color: Highcharts.getOptions().colors[1]
+                    color: Highcharts.getOptions().colors[0]
                 }
             }
-        },
+        },{ // Secondary yAxis
+            title: {
+                text: 'Humidité',
+                style: {
+                    color: Highcharts.getOptions().colors[1]
+                }
+            },
+            labels: {
+                format: '{value} %',
+                style: {
+                    color: Highcharts.getOptions().colors[1]
+                }
+            },
+            opposite: true
+        }
+        ],
         xAxis: {
             type:'datetime',
             tickInterval: 1000*60*30,

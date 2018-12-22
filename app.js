@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var temperatures = require('./routes/temperatures');
-var sondes = require('./routes/sondes');
+//var sondes = require('./routes/sondes');
 var temperaturesdht11 = require('./routes/temperaturesdht11');
 var sondedht11 = require('./routes/sondedht11');
 
@@ -29,7 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 app.use('/temperatures', temperatures);
-app.use('/sondes', sondes);
+//app.use('/sondes', sondes);
 app.use('/temperaturesdht11', temperaturesdht11);
 app.use('/sondedht11', sondedht11);
 

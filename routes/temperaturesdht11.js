@@ -96,14 +96,14 @@ router.get('/', function(req, res, next) {
 	/*res.send(collection);*/
 	//console.log("test:"+test);
         //console.log("collection:"+collection);
-		var labels = ["Temperature","Humidité","invalide","invalide"];
+		var labels = ["Temperature","Humidité"];
 	var docs = cursor.toArray(function(err, docs){
 		//console.log(JSON.stringify(docs));
 		//console.log("docs:"+docs);
 		if(docs != null){
 			docs.reverse();
 			var serie = new Object();
-			for(var cpt=0;cpt<4;cpt++){
+			for(var cpt=0;cpt<2;cpt++){
 				serie[cpt] = "{name:'"+labels[(cpt)]+"',data:[";
 				for(var doc in docs){
 					//console.log(doc+" doc:"+docs[doc]);
@@ -116,7 +116,7 @@ router.get('/', function(req, res, next) {
 			}
 			//console.log(serie);
 			// concatenate all
-			series+=serie[0]+serie[1]+serie[2]+serie[3];
+			series+=serie[0]+serie[1];
 			console.log("docs size:"+docs.length);
 		}
 		series += ']';
