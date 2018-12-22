@@ -41,7 +41,6 @@ function readTemp(callback){
 			
 				  // Add date/time to temperature
 				  sondesData.name = "dht11";
-				  sondesData.data['sonde1'] = jdata.temp;
 				  sondesData.data['sonde1'] = jdata.temperature;
 				  sondesData.data['sonde2'] = jdata.humidity;
 				  // Execute call back with data
