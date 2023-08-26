@@ -6,8 +6,8 @@ var express = require('express');
 var router = express.Router();
 var assert = require('assert');
 
-var Engine = require('mongodb').MongoClient;
-var url = 'mongodb://localhost:27017/local';
+var Engine = require('nedb');
+var url = './data/temperatures';
 
 
 //var Engine = require('mongodb')();
@@ -20,14 +20,14 @@ function readTemp(callback){
 			name: "test",
 			date: new Date(),
 			data: {
-				 sonde1 : 0,
-				 sonde2 : 0,
-				 sonde3 : 0,
-				 sonde4 : 0,
-				//sonde1 : 20*Math.random(),
-				//sonde2 : 20*Math.random(),
-				//sonde3 : 20*Math.random(),
-				//sonde4 : 20*Math.random(),
+				//  sonde1 : 0,
+				//  sonde2 : 0,
+				//  sonde3 : 0,
+				//  sonde4 : 0,
+				sonde1 : 20*Math.random(),
+				sonde2 : 20*Math.random(),
+				sonde3 : 20*Math.random(),
+				sonde4 : 20*Math.random(),
 			}
 
 		}
@@ -61,15 +61,16 @@ function readTemp(callback){
 };
 
 function insertTemp(data){
-	Engine.connect(url, function(err, db) {
+	let db = new Engine(url);
+	db.loadDatabase(function(err) {
 	  assert.equal(null, err);
 	  console.log("Connected correctly to server.");
-	  var collection = db.collection('temperatures');
+	  
 		//console.log(collection);
 		//collection.insert({'a':1})
 		console.log("data:"+JSON.stringify(data));
-		collection.insert(data);
-		db.close();
+		db.insert(data);
+		
 	});
 	
 }

@@ -9,13 +9,22 @@ block content
   p Bienvenue, #{title}
   div: a(class='button',href='/sondes/current') température en direct
   div: a(class='button',href='/temperatures?date=month') mois entier
+  p résultats courants
   div(id="datepicker")
+  p historique par année
+  div(id="datepickerhistory")
   script(type="text/javascript").
    $(function() {
      $( "#datepicker" ).datepicker(
      {
         onSelect: function( selectedDate ) {
            window.location.href = "/temperatures?date=" + selectedDate;
+      }
+     });
+     $( "#datepickerhistory" ).datepicker(
+     {
+        onSelect: function( selectedDate ) {
+           window.location.href = "/history?date=" + selectedDate;
       }
      });
    });

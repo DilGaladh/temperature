@@ -10,7 +10,7 @@ $(function () {
             zoomType: 'x',
             animation: { duration: 5000},
             events : {
-                      load : function() {
+                      loade : function() {
                               var thatSeries = this.series;
                               setInterval(function(){
                                           
