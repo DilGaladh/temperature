@@ -96,7 +96,7 @@ router.get('/', function (req, res, next) {
 		//console.log("collection:"+collection);
 		var labels = ["Soleil", "Sous-sol", "Extérieur", "Tuyau"];
 		var docs = cursor.exec(function (err, docs) {
-			//console.log(JSON.stringify(docs));
+			console.log(JSON.stringify(docs));
 			//console.log("docs:"+docs);
 			if (docs != null) {
 				docs.reverse();
@@ -120,10 +120,10 @@ router.get('/', function (req, res, next) {
 			series += ']';
 			//console.log("series:"+series);
 			//console.log(docs);
+			res.render('index', { title: 'Temperatures', content: "salut", series: series, dd1: "var dd1 = [0,8,4,5,6];" });
 
 			
 		});
-		res.render('index', { title: 'Temperatures', content: "salut", series: series, dd1: "var dd1 = [0,8,4,5,6];" });
 
 	}
 
