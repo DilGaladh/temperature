@@ -9,6 +9,7 @@ var Engine = require('nedb');
 var url = './data/temperatures';
 var db = new Engine(url);
 db.loadDatabase(function(err) {
+	console.log(err);
 });
 
 // insertion test
@@ -118,11 +119,11 @@ router.get('/', function (req, res, next) {
 			}
 			series += ']';
 			//console.log("series:"+series);
-			res.render('index', { title: 'Temperatures', content: "salut", series: series, dd1: "var dd1 = [0,8,4,5,6];" });
 			//console.log(docs);
 
 			
 		});
+		res.render('index', { title: 'Temperatures', content: "salut", series: series, dd1: "var dd1 = [0,8,4,5,6];" });
 
 	}
 
