@@ -7,51 +7,14 @@ var assert = require('assert');
 
 var Engine = require('nedb');
 var url = './data/temperatures';
-var db = new Engine(url);
-db.loadDatabase(function(err) {
-	console.log(err);
-});
 
-// insertion test
-var insertDocument = function (db, callback) {
-	//var collection = db.collection('temperatures');
-	//console.log(collection);
-	//collection.insert({'a':1});
-	db.insert(
-		{
-			name: "test",
-			date: new Date(),
-			data: {
-				sonde1: 20 * Math.random(),
-				sonde2: 20 * Math.random(),
-				sonde3: 20 * Math.random(),
-				sonde4: 20 * Math.random(),
-			}
-
-		}, function (err, result) {
-			assert.equal(err, null);
-			console.log("inserted a document into the temperatures collection.");
-			callback(result);
-		});
-};
-
-/*for(var i = 0; i<2000;i++){
-	Engine.connect(url, function(err, db) {
-	  assert.equal(null, err);
-	  console.log("Connected correctly to server.");
-	  insertDocument(db, function(r){db.close();});
-	  
-	});
-}*/
-
-
-/*insertDocument(db, function(){
-	db.close();
-});*/
 
 /* GET temperatures listing. */
 router.get('/', function (req, res, next) {
-
+	var db = new Engine(url);
+	db.loadDatabase(function(err) {
+		console.log(err);
+	});
 	 {
 		
 		console.log("Connected correctly to server.");

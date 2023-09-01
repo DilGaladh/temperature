@@ -5,55 +5,18 @@ var assert = require('assert');
 
 // database
 
-var Engine = require('nedb');
+var Engine = require('nedb-promises');
 var url = './data/temperatures';
-var db = new Engine(url);
-db.loadDatabase(function(err) {
-});
-
-// insertion test
-var insertDocument = function (db, callback) {
-	var collection = db;
-	//console.log(collection);
-	//collection.insert({'a':1});
-	collection.insert(
-		{
-			name: "test",
-			date: new Date(),
-			data: {
-				sonde1: 20 * Math.random(),
-				sonde2: 20 * Math.random(),
-				sonde3: 20 * Math.random(),
-				sonde4: 20 * Math.random(),
-			}
-
-		}, function (err, result) {
-			assert.equal(err, null);
-			console.log("inserted a document into the temperatures collection.");
-			callback(result);
-		});
-};
-
-/*for(var i = 0; i<2000;i++){
-	Engine.connect(url, function(err, db) {
-	  assert.equal(null, err);
-	  console.log("Connected correctly to server.");
-	  insertDocument(db, function(r){db.close();});
-	  
-	});
-}*/
 
 
-/*insertDocument(db, function(){
-	db.close();
-});*/
 
 /* GET temperatures listing. */
-router.get('/', function (req, res, next) {
-
+router.get('/', async function (req, res, next) {
+	var db = Engine.create(url);
+	await db.load();
 	{
 		
-		console.log("Connected correctly to server.");
+		console.log("Connected correctly to server HISTORY.");
 
 		var series = 'var series = [';
 
@@ -83,28 +46,12 @@ router.get('/', function (req, res, next) {
 			}
 			console.log(req.query.date, dateStart, dateEnd);
 			//res.send('respond with a resource');
-			var collection = db;
-			//collection.createIndex({date: -1}, {background: true});
-
-			var cursor = collection.find({ "date": { "$gte": dateStart, "$lt": dateEnd } }).sort({ "date": -1 }).limit(500000);
-			//cursor.count(0, null, function (err, c) { console.log("count:", c); });
-			//var cursor = collection.find( );
-			// cursor.each(function(err, doc) {
-			// assert.equal(err, null);
-			// if (doc != null) {
-			// console.dir(doc);
-			// } 
-			// });
-			/*res.send(collection);*/
-			//console.log("test:"+test);
-			//console.log("collection:"+collection);
+			
+			var docs = await db.find({ "date": { "$gte": dateStart, "$lt": dateEnd } }).sort({ "date": -1 }).limit(500000);
 			var labels = ["Soleil", "Sous-sol", "Extérieur", "Tuyau"];
-			var docs = cursor.exec(function (err, docs)
-			{
-				return docs;
-			});
-			//console.log(JSON.stringify(docs));
-			//console.log("docs:"+docs);
+
+			console.log(JSON.stringify(docs));
+			console.log("docs:"+docs);
 			if (docs != null) {
 				docs.reverse();
 				var serie = new Object();
@@ -133,7 +80,6 @@ router.get('/', function (req, res, next) {
 		//console.log("series:"+series);
 		res.render('index', { title: 'Temperatures', content: "salut", series: series, dd1: "var dd1 = [0,8,4,5,6];" });
 		//console.log(docs);
-
 	
 	}
 

@@ -6,7 +6,7 @@ var express = require('express');
 var router = express.Router();
 var assert = require('assert');
 
-var Engine = require('nedb');
+var Engine = require('nedb-promises');
 var url = './data/temperatures';
 
 
@@ -60,25 +60,17 @@ function readTemp(callback){
    
 };
 
-function insertTemp(data){
-	let db = new Engine(url);
-	db.loadDatabase(function(err) {
-	  assert.equal(null, err);
-	  console.log("Connected correctly to server.");
-	  
-		//console.log(collection);
-		//collection.insert({'a':1})
-		console.log("data:"+JSON.stringify(data));
-		db.insert(data);
-		
-	});
-	
+async function insertTemp(data){
+	let db = Engine.create(url);
+	await db.load();
+	console.log("data:"+JSON.stringify(data));
+	await db.insert(data);
 }
 
 // Create a wrapper function which we'll use specifically for logging
 function logTemp(interval){
       // Call the readTemp function with the insertTemp function as output to get initial reading
-      readTemp(insertTemp);
+		// readTemp(insertTemp);
       // Set the repeat interval (milliseconds). Third argument is passed as callback function to first (i.e. readTemp(insertTemp)).
       setInterval(readTemp, interval, insertTemp);
 };
