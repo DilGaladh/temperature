@@ -5,7 +5,7 @@ var assert = require('assert');
 
 // database
 
-var Engine = require('nedb');
+var Engine = require('nedb-promises');
 var url = './data/temperatures';
 
 
@@ -40,23 +40,12 @@ router.get('/', async function (req, res, next) {
 		}
 		console.log(req.query.date, dateStart, dateEnd);
 		//res.send('respond with a resource');
-		var collection = db;
 		//collection.createIndex({date: -1}, {background: true});
 		var series = 'var series = [';
-		var cursor = collection.find({ "date": { "$gte": dateStart, "$lt": dateEnd } }).sort({ "date": -1 }).limit(500000);
-		//cursor.count(0, null, function (err, c) { console.log("count:", c); });
-		//var cursor = collection.find( );
-		// cursor.each(function(err, doc) {
-		// assert.equal(err, null);
-		// if (doc != null) {
-		// console.dir(doc);
-		// } 
-		// });
-		/*res.send(collection);*/
-		//console.log("test:"+test);
-		//console.log("collection:"+collection);
+		var docs = await db.find({ "date": { "$gte": dateStart, "$lt": dateEnd } }).sort({ "date": -1 }).limit(500000);
+		
 		var labels = ["Soleil", "Sous-sol", "Extérieur", "Tuyau"];
-		var docs = cursor.exec(function (err, docs) {
+		{
 			console.log(JSON.stringify(docs));
 			//console.log("docs:"+docs);
 			if (docs != null) {
@@ -84,7 +73,7 @@ router.get('/', async function (req, res, next) {
 			res.render('index', { title: 'Temperatures', content: "salut", series: series, dd1: "var dd1 = [0,8,4,5,6];" });
 
 			
-		});
+		}
 
 	}
 
