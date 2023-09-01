@@ -10,11 +10,9 @@ var url = './data/temperatures';
 
 
 /* GET temperatures listing. */
-router.get('/', function (req, res, next) {
-	var db = new Engine(url);
-	db.loadDatabase(function(err) {
-		console.log(err);
-	});
+router.get('/', async function (req, res, next) {
+	let db = Engine.create(url);
+	await db.load();
 	 {
 		
 		console.log("Connected correctly to server.");
