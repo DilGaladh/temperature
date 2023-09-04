@@ -1,0 +1,3 @@
+0 * * * * sh ~/temperature/raspberry/get_from_github.sh | tee ~/get_from_github.log
+* 2 * * * sh ~/temperature/raspberry/relaunch_website.sh | tee ~/relaunch_website.log        
+@reboot sh ~/temperature/raspberry/relaunch_website.sh | tee ~/relaunch_website.log
