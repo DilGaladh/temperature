@@ -1,0 +1,2 @@
+sudo crontab ./crontab.txt
+
