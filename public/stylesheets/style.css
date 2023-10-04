@@ -6,3 +6,20 @@ body {
 a {
   color: #00B7FF;
 }
+
+.clear
+{
+ clear: both;
+ 
+}
+
+.floatleft{
+  float: left;
+  display: block;
+  width: 30%;
+  margin: 10px;
+}
+
+.block{
+  display: block;
+}
