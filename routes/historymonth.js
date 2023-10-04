@@ -50,8 +50,8 @@ router.get('/', async function (req, res, next) {
 			var docs = await db.find({ "date": { "$gte": dateStart, "$lt": dateEnd } }).sort({ "date": -1 }).limit(500000);
 			var labels = ["Soleil", "Sous-sol", "Extérieur", "Tuyau"];
 
-			console.log(JSON.stringify(docs));
-			console.log("docs:"+docs);
+			//console.log(JSON.stringify(docs));
+			//console.log("docs:"+docs);
 			if (docs != null) {
 				docs.reverse();
 				var serie = new Object();
@@ -64,6 +64,7 @@ router.get('/', async function (req, res, next) {
 						var keys = Object.keys(dataArray);
 						docs[doc].date.setFullYear(0);
 						docs[doc].date.setDate(0);
+						docs[doc].date.setMonth(0);
 						serie[cpt] += "[" + JSON.stringify(docs[doc].date.getTime()) + "," + JSON.stringify(dataArray[keys[cpt]]) + "],";
 					}
 					serie[cpt] += "]},";
