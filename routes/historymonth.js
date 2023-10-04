@@ -63,6 +63,7 @@ router.get('/', async function (req, res, next) {
 						//console.log("dataArray:"+dataArray);
 						var keys = Object.keys(dataArray);
 						docs[doc].date.setFullYear(0);
+						docs[doc].date.setDate(0);
 						serie[cpt] += "[" + JSON.stringify(docs[doc].date.getTime()) + "," + JSON.stringify(dataArray[keys[cpt]]) + "],";
 					}
 					serie[cpt] += "]},";
