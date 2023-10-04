@@ -20,14 +20,14 @@ function readTemp(callback){
 			name: "test",
 			date: new Date(),
 			data: {
-				//  sonde1 : 0,
-				//  sonde2 : 0,
-				//  sonde3 : 0,
-				//  sonde4 : 0,
-				sonde1 : 20*Math.random(),
-				sonde2 : 20*Math.random(),
-				sonde3 : 20*Math.random(),
-				sonde4 : 20*Math.random(),
+				 sonde1 : 0,
+				 sonde2 : 0,
+				 sonde3 : 0,
+				 sonde4 : 0,
+				// sonde1 : 20*Math.random(),
+				// sonde2 : 20*Math.random(),
+				// sonde3 : 20*Math.random(),
+				// sonde4 : 20*Math.random(),
 			}
 
 		}
