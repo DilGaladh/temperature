@@ -8,7 +8,8 @@ var assert = require('assert');
 
 var Engine = require('nedb-promises');
 var url = './data/temperatures';
-
+var year = new Date().getFullYear();
+var month = new Date().getMonth();
 
 //var Engine = require('mongodb')();
 //var db = new Engine.Db('./data/', {});
@@ -61,7 +62,8 @@ function readTemp(callback){
 };
 
 async function insertTemp(data){
-	let db = Engine.create(url);
+	let databaseName = url+"_"+year+"_"+month;
+	let db = Engine.create(databaseName);
 	await db.load();
 	console.log("data:"+JSON.stringify(data));
 	await db.insert(data);

@@ -7,18 +7,18 @@ var assert = require('assert');
 
 var Engine = require('nedb-promises');
 var url = './data/temperatures';
-
+var year = new Date().getFullYear();
+var month = new Date().getMonth();
 
 
 /* GET temperatures listing. */
 router.get('/', async function (req, res, next) {
-	var db = Engine.create(url);
-	await db.load();
 	{
+
 		
-		console.log("Connected correctly to server HISTORY month.");
 
 		var series = 'var series = [';
+		var heatmap = 'var heatmap = [';
 
 		// Date parsing
 		var dateStart = null;
@@ -44,9 +44,13 @@ router.get('/', async function (req, res, next) {
 				}
 				dateEnd = new Date(dateStart.getTime() + 3600 * 1000 * 24);
 			}
+			year = dateStart.getFullYear();
+			month = dateStart.getMonth();
 			console.log(req.query.date, dateStart, dateEnd);
 			//res.send('respond with a resource');
-			
+			let databaseName = url+"_"+year+"_"+month;
+			let db = Engine.create(databaseName);
+			await db.load();
 			var docs = await db.find({ "date": { "$gte": dateStart, "$lt": dateEnd } }).sort({ "date": -1 }).limit(500000);
 			var labels = ["Soleil", "Sous-sol", "Extérieur", "Tuyau"];
 
@@ -66,12 +70,13 @@ router.get('/', async function (req, res, next) {
 						docs[doc].date.setDate(0);
 						docs[doc].date.setMonth(0);
 						serie[cpt] += "[" + JSON.stringify(docs[doc].date.getTime()) + "," + JSON.stringify(dataArray[keys[cpt]]) + "],";
+						heatmap += "[" + JSON.stringify(docs[doc].date.getDate()) + "," + JSON.stringify(docs[doc].date.getMonth()) + "," + 5 + "],";
 					}
 					serie[cpt] += "]},";
 				}
 				//console.log(serie);
 				// concatenate all
-				if(docs.length != 0)	
+				if (docs.length != 0)
 					series += /*serie[0] + serie[1] +*/ serie[2] /*+ serie[3]*/;
 				console.log("docs size:" + docs.length);
 			}
@@ -79,10 +84,11 @@ router.get('/', async function (req, res, next) {
 
 		}
 		series += ']';
+		heatmap += ']';
 		//console.log("series:"+series);
-		res.render('index', { title: 'Temperatures', content: "salut", series: series, dd1: "var dd1 = [0,8,4,5,6];" });
+		res.render('index', { title: 'Temperatures', content: "salut", series: series, heatmap: heatmap, dd1: "var dd1 = [0,8,4,5,6];" });
 		//console.log(docs);
-	
+
 	}
 
 	//res.render('index', { title: 'Temperatures', content: collection, dd1: "var dd1 = [0,8,4,5,6];" });

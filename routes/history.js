@@ -7,17 +7,13 @@ var assert = require('assert');
 
 var Engine = require('nedb-promises');
 var url = './data/temperatures';
-
-
+var year = new Date().getFullYear();
+var month = new Date().getMonth();
 
 /* GET temperatures listing. */
 router.get('/', async function (req, res, next) {
-	var db = Engine.create(url);
-	await db.load();
+	
 	{
-		
-		console.log("Connected correctly to server HISTORY.");
-
 		var series = 'var series = [';
 
 		// Date parsing
@@ -44,9 +40,13 @@ router.get('/', async function (req, res, next) {
 				}
 				dateEnd = new Date(dateStart.getTime() + 3600 * 1000 * 24);
 			}
+			year = dateStart.getFullYear();
+			month = dateStart.getMonth();
 			console.log(req.query.date, dateStart, dateEnd);
 			//res.send('respond with a resource');
-			
+			let databaseName = url+"_"+year+"_"+month;
+			let db = Engine.create(databaseName);
+			await db.load();
 			var docs = await db.find({ "date": { "$gte": dateStart, "$lt": dateEnd } }).sort({ "date": -1 }).limit(500000);
 			var labels = ["Soleil", "Sous-sol", "Extérieur", "Tuyau"];
 
