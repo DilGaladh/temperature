@@ -11,6 +11,7 @@ var temperatures = require('./routes/temperatures');
 var sondes = require('./routes/sondes');
 var history = require('./routes/history');
 var historymonth = require('./routes/historymonth');
+var migrate = require('./routes/migrate');
 
 var app = express();
 
@@ -32,6 +33,7 @@ app.use('/temperatures', temperatures);
 app.use('/sondes', sondes);
 app.use('/history', history);
 app.use('/historymonth', historymonth);
+app.use('/migrate', migrate);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

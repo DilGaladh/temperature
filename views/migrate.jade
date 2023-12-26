@@ -1,0 +1,21 @@
+block content
+  h1= title
+  p Bienvenue, #{title}
+  p(id="count") #{content}
+  p restant à migrer, on en est à :
+  p Year #{year} Month #{month}
+  script(type="text/javascript").
+    function toto() {
+      var val = document.getElementById("count").textContent;
+      console.log(val);
+      if(val != "0")
+      {
+        setTimeout(function()
+        {
+          console.log("refresh");
+          window.location.href = window.location.href;
+        },0);
+      }
+        
+    }
+    toto();
