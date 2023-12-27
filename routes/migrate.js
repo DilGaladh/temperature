@@ -46,18 +46,7 @@ router.get('/', async function (req, res, next) {
 			{
 				//console.error(e);
 			}
-			for (let index = 1; index < docsOfTheDay.length-1; index++) {
-				const e = docsOfTheDay[index];
-				const eNext = docsOfTheDay[index+1];
-				const ePrev = docsOfTheDay[index-1];
-				if(		e.data.sonde1 == eNext.data.sonde1 && e.data.sonde1 == ePrev.data.sonde1
-					&&	e.data.sonde2 == eNext.data.sonde2 && e.data.sonde2 == ePrev.data.sonde2
-					&&	e.data.sonde3 == eNext.data.sonde3 && e.data.sonde3 == ePrev.data.sonde3
-					&&	e.data.sonde4 == eNext.data.sonde4 && e.data.sonde4 == ePrev.data.sonde4)
-				{
-					console.log("############################ remove this non necessary info");
-				}
-			}
+			
 			for (const iterator of docsOfTheDay) {
 				//console.log("removing ", iterator._id);
 				await dbToMigrate.remove({"_id": iterator._id});
