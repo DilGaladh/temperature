@@ -65,7 +65,7 @@ async function insertTemp(data){
 	let databaseName = url+"_"+year+"_"+month;
 	let db = Engine.create(databaseName);
 	await db.load();
-	console.log("databaseName | data:"+JSON.stringify(data));
+	console.log(databaseName + " | data:"+JSON.stringify(data));
 	await db.insert(data);
 }
 
