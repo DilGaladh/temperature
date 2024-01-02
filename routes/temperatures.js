@@ -40,10 +40,11 @@ router.get('/', async function (req, res, next) {
 		}
 		year = dateStart.getFullYear();
 		month = dateStart.getMonth();
-		console.log(req.query.date, dateStart, dateEnd);
+		console.log("date queried:" + req.query.date, "date start: "+dateStart, "date end: "+dateEnd);
 	}
 	// query good database
 	let databaseName = url+"_"+year+"_"+month;
+	console.log("opening "+databaseName);
 	let db = Engine.create(databaseName);
 	await db.load();
 	 {
