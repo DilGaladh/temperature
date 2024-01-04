@@ -14,9 +14,6 @@ var month = new Date().getMonth();
 /* GET temperatures listing. */
 router.get('/', async function (req, res, next) {
 	{
-
-		
-
 		var series = 'var series = [';
 		var heatmap = 'var heatmap = [';
 
@@ -24,6 +21,7 @@ router.get('/', async function (req, res, next) {
 		var dateStart = null;
 		var dateEnd = null;
 		for (let day = 0; day < 31; day++) {
+			let hour = 0;
 			if (req.query.date == "month") {
 				dateStart = new Date();
 				dateStart.setDate(1);
@@ -34,7 +32,7 @@ router.get('/', async function (req, res, next) {
 				dateEnd = new Date();
 			} else {
 				dateStart = new Date(Date.parse(req.query.date));
-				dateStart.setDate(dateStart.getDate() - day);
+				dateStart.setDate(dateStart.getDate() - (31-day));
 				if (req.query.date == undefined) {
 					dateStart = new Date();
 					dateStart.setHours(0);
@@ -51,7 +49,7 @@ router.get('/', async function (req, res, next) {
 			let databaseName = url+"_"+year+"_"+month;
 			let db = Engine.create(databaseName);
 			await db.load();
-			var docs = await db.find({ "date": { "$gte": dateStart, "$lt": dateEnd } }).sort({ "date": -1 }).limit(500000);
+			var docs = await db.find({ "date": { "$gte": dateStart, "$lt": dateEnd } }).sort({ "date": -1 });
 			var labels = ["Soleil", "Sous-sol", "Extérieur", "Tuyau"];
 
 			//console.log(JSON.stringify(docs));
@@ -64,13 +62,21 @@ router.get('/', async function (req, res, next) {
 					for (var doc in docs) {
 						//console.log(doc+" doc:"+docs[doc]);
 						var dataArray = docs[doc].data;
+						var date = new Date(docs[doc].date);
 						//console.log("dataArray:"+dataArray);
 						var keys = Object.keys(dataArray);
 						docs[doc].date.setFullYear(0);
 						docs[doc].date.setDate(0);
 						docs[doc].date.setMonth(0);
 						serie[cpt] += "[" + JSON.stringify(docs[doc].date.getTime()) + "," + JSON.stringify(dataArray[keys[cpt]]) + "],";
-						heatmap += "[" + JSON.stringify(docs[doc].date.getDate()) + "," + JSON.stringify(docs[doc].date.getMonth()) + "," + 5 + "],";
+						if(cpt == 0)
+						{
+							if(date.getHours() == hour)
+							{
+								heatmap += "[" + date.getTime()+ "," + JSON.stringify(date.getHours()) + "," + JSON.stringify(dataArray[keys[cpt]]) + "],";
+								hour++;
+							}
+						}
 					}
 					serie[cpt] += "]},";
 				}
@@ -86,7 +92,8 @@ router.get('/', async function (req, res, next) {
 		series += ']';
 		heatmap += ']';
 		//console.log("series:"+series);
-		res.render('index', { title: 'Temperatures', content: "salut", series: series, heatmap: heatmap, dd1: "var dd1 = [0,8,4,5,6];" });
+		//console.log("heatmap:"+heatmap);
+		res.render('historymonth', { title: 'Temperatures', content: "salut", series: series, heatmap: heatmap});
 		//console.log(docs);
 
 	}

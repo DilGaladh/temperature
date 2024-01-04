@@ -79,7 +79,7 @@ router.get('/', async function (req, res, next) {
 			series += ']';
 			//console.log("series:"+series);
 			//console.log(docs);
-			res.render('index', { title: 'Temperatures', content: "salut", series: series, dd1: "var dd1 = [0,8,4,5,6];" });
+			res.render('index', { title: 'Temperatures', content: "salut", series: series, heatmap: "var heatmap = null;"});
 
 			
 		}
