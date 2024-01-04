@@ -11,20 +11,34 @@ $(function () {
             zoomType: 'x',
             animation: { duration: 5000 },
             events: {
-                loade: function () {
+                load: function () {
+                    console.log("will load data for chart");
+                    const queryString = window.location.search;
+                    const urlParams = new URLSearchParams(queryString);
+                    const date = new Date(urlParams.get('date'));
+                    let day = 31;
                     var thatSeries = this.series;
-                    setInterval(function () {
-
+                    var that = this;
+                    function nextDay(theDay) {
                         var xhttp = new XMLHttpRequest();
                         xhttp.onreadystatechange = function () {
                             if (xhttp.readyState == XMLHttpRequest.DONE) {
                                 if (xhttp.status == 200) {
+                                    that.addSeries({name:""+theDay, data:[]});
                                     var data = JSON.parse(xhttp.responseText);
-                                    var date = new Date(data.date).getTime();
-                                    thatSeries[0].addPoint([date, data.data.sonde1], true, true);
-                                    thatSeries[1].addPoint([date, data.data.sonde2], true, true);
-                                    thatSeries[2].addPoint([date, data.data.sonde3], true, true);
-                                    thatSeries[3].addPoint([date, data.data.sonde4], true, true);
+                                    console.log("day:", theDay);
+                                    console.log("data:", data);
+                                    console.log("data length:", data.length);
+                                    for (const iterator of data) {
+                                        //console.log(iterator);
+                                        let neutralDate = new Date(iterator[0]);
+                                        neutralDate.setDate(0);
+                                        thatSeries[thatSeries.length-1].addPoint([neutralDate, iterator[2]], false);
+                                    }
+                                    that.redraw();
+                                    if (theDay > 0)
+                                        setTimeout(nextDay, 5000, theDay - 1);
+
                                 }
                                 else if (xhttp.status == 400) {
                                     // alert('There was an error 400')
@@ -34,10 +48,14 @@ $(function () {
                                 }
                             }
                         };
-                        xhttp.open("GET", "sondes", true);
+                        let dateComputed = new Date(date.getTime() - theDay * 3600 * 24 * 1000);
+                        xhttp.open("GET", "onedayraw?date=" + dateComputed.toString(), true);
+
                         xhttp.send();
-                    }, 10000);
+                    }
+                    let clear = setTimeout(nextDay, 0, day);
                 }
+
             }
         },
         title: {
@@ -75,7 +93,51 @@ $(function () {
     if (heatmap != null) {
         $('#container2').highcharts({
             chart: {
-                type: 'heatmap'
+                type: 'heatmap',
+                animation: { duration: 10 },
+                events: {
+                    load: function () {
+                        console.log("will load data for heatmap");
+                        const queryString = window.location.search;
+                        const urlParams = new URLSearchParams(queryString);
+                        const date = new Date(urlParams.get('date'));
+                        let day = 31;
+                        var thatSeries = this.series;
+                        var that = this;
+                        function nextDay(theDay) {
+                            var xhttp = new XMLHttpRequest();
+                            xhttp.onreadystatechange = function () {
+                                if (xhttp.readyState == XMLHttpRequest.DONE) {
+                                    if (xhttp.status == 200) {
+                                        var data = JSON.parse(xhttp.responseText);
+                                        console.log("day:", theDay);
+                                        console.log("data:", data);
+                                        console.log("data length:", data.length);
+                                        for (const iterator of data) {
+                                            //console.log(iterator);
+                                            thatSeries[0].addPoint(iterator, false);
+                                        }
+                                        that.redraw();
+                                        if (theDay > 0)
+                                            setTimeout(nextDay, 7000, theDay - 1);
+
+                                    }
+                                    else if (xhttp.status == 400) {
+                                        // alert('There was an error 400')
+                                    }
+                                    else {
+                                        // alert('something else other than 200 was returned')
+                                    }
+                                }
+                            };
+                            let dateComputed = new Date(date.getTime() - theDay * 3600 * 24 * 1000);
+                            xhttp.open("GET", "onedayraw?date=" + dateComputed.toString(), true);
+
+                            xhttp.send();
+                        }
+                        let clear = setTimeout(nextDay, 0, day);
+                    }
+                }
             },
 
             title: {
@@ -96,7 +158,7 @@ $(function () {
                     align: 'left',
                     x: 5,
                     y: 14,
-                    format: '{value:%b-%d}' 
+                    format: '{value:%b-%d}'
                 },
                 showLastLabel: false,
                 tickLength: 1
