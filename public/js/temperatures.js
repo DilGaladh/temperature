@@ -11,7 +11,7 @@ $(function () {
             zoomType: 'x',
             animation: { duration: 5000 },
             events: {
-                load: function () {
+                loade: function () {
                     console.log("will load data for chart");
                     const queryString = window.location.search;
                     const urlParams = new URLSearchParams(queryString);
@@ -119,7 +119,7 @@ $(function () {
                                         }
                                         that.redraw();
                                         if (theDay > 0)
-                                            setTimeout(nextDay, 7000, theDay - 1);
+                                            setTimeout(nextDay, 0, theDay - 1);
 
                                     }
                                     else if (xhttp.status == 400) {
