@@ -1,3 +1,5 @@
 cd temperature
 sudo killall node
-sudo node --inspect ./bin/www
+# for debugging
+#sudo node --inspect ./bin/www
+sudo node ./bin/www
