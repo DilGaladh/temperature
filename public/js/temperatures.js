@@ -5,57 +5,23 @@ $(function () {
             useUTC: false
         }
     });
+    var lineSeries = null;
+    var heatSeries = null;
+    var heatChart = null;
+    var lineChart = null;
     $('#container').highcharts({
         chart: {
             type: 'spline',
             zoomType: 'x',
             animation: { duration: 5000 },
             events: {
-                loade: function () {
-                    console.log("will load data for chart");
-                    const queryString = window.location.search;
-                    const urlParams = new URLSearchParams(queryString);
-                    const date = new Date(urlParams.get('date'));
-                    let day = 31;
+                load: function () {
+                    console.log("register load data for chart");
+                    
                     var thatSeries = this.series;
-                    var that = this;
-                    function nextDay(theDay) {
-                        var xhttp = new XMLHttpRequest();
-                        xhttp.onreadystatechange = function () {
-                            if (xhttp.readyState == XMLHttpRequest.DONE) {
-                                if (xhttp.status == 200) {
-                                    that.addSeries({name:""+theDay, data:[]});
-                                    var data = JSON.parse(xhttp.responseText);
-                                    console.log("day:", theDay);
-                                    console.log("data:", data);
-                                    console.log("data length:", data.length);
-                                    for (const iterator of data) {
-                                        //console.log(iterator);
-                                        let neutralDate = new Date(iterator[0]);
-                                        neutralDate.setDate(0);
-                                        thatSeries[thatSeries.length-1].addPoint([neutralDate, iterator[2]], false);
-                                    }
-                                    that.redraw();
-                                    if (theDay > 0)
-                                        setTimeout(nextDay, 5000, theDay - 1);
-
-                                }
-                                else if (xhttp.status == 400) {
-                                    // alert('There was an error 400')
-                                }
-                                else {
-                                    // alert('something else other than 200 was returned')
-                                }
-                            }
-                        };
-                        let dateComputed = new Date(date.getTime() - theDay * 3600 * 24 * 1000);
-                        xhttp.open("GET", "onedayraw?date=" + dateComputed.toString(), true);
-
-                        xhttp.send();
-                    }
-                    let clear = setTimeout(nextDay, 0, day);
+                    lineSeries = thatSeries;
+                    lineChart = this;
                 }
-
             }
         },
         title: {
@@ -101,8 +67,10 @@ $(function () {
                         const queryString = window.location.search;
                         const urlParams = new URLSearchParams(queryString);
                         const date = new Date(urlParams.get('date'));
-                        let day = 31;
+                        let day = 0;
                         var thatSeries = this.series;
+                        heatSeries = thatSeries;
+                        heatChart = this;
                         var that = this;
                         function nextDay(theDay) {
                             var xhttp = new XMLHttpRequest();
@@ -113,13 +81,28 @@ $(function () {
                                         console.log("day:", theDay);
                                         console.log("data:", data);
                                         console.log("data length:", data.length);
+                                        if(null != lineChart)
+                                        {
+                                            lineChart.addSeries({name:""+theDay, data:[]});
+                                        }
                                         for (const iterator of data) {
                                             //console.log(iterator);
-                                            thatSeries[0].addPoint(iterator, false);
+                                            heatSeries[0].addPoint(iterator, false);
+                                            if(null != lineSeries)
+                                            {
+                                                let localDate = new Date(iterator[0]);
+                                                localDate.setMonth(0);
+                                                localDate.setDate(0);
+                                                localDate.setFullYear(0);
+                                                console.log(localDate.toString());
+                                                lineSeries[lineSeries.length - 1].addPoint([localDate.getTime(),iterator[2]], false);
+                                            }
                                         }
-                                        that.redraw();
-                                        if (theDay > 0)
-                                            setTimeout(nextDay, 0, theDay - 1);
+                                        heatChart.redraw();
+                                        if(lineChart != null)
+                                            lineChart.redraw();
+                                        if (theDay < 31)
+                                            setTimeout(nextDay, 0, theDay + 1);
 
                                     }
                                     else if (xhttp.status == 400) {
