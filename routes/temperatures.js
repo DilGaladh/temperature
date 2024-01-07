@@ -55,7 +55,7 @@ router.get('/', async function (req, res, next) {
 		
 		var labels = ["Soleil", "Sous-sol", "Extérieur", "Tuyau"];
 		{
-			console.log(JSON.stringify(docs));
+			//console.log(JSON.stringify(docs));
 			//console.log("docs:"+docs);
 			if (docs != null) {
 				docs.reverse();
