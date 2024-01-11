@@ -72,7 +72,9 @@ $(function () {
                         heatSeries = thatSeries;
                         heatChart = this;
                         var that = this;
+                        
                         function nextDay(theDay) {
+                            let dateComputed = new Date(date.getTime() - theDay * 3600 * 24 * 1000);
                             var xhttp = new XMLHttpRequest();
                             xhttp.onreadystatechange = function () {
                                 if (xhttp.readyState == XMLHttpRequest.DONE) {
@@ -83,11 +85,18 @@ $(function () {
                                         console.log("data length:", data.length);
                                         if(null != lineChart)
                                         {
-                                            lineChart.addSeries({name:""+theDay, data:[]});
+                                            
+                                            lineChart.addSeries({name:""+dateComputed.toLocaleDateString(), data:[]});
                                         }
                                         for (const iterator of data) {
                                             //console.log(iterator);
-                                            heatSeries[0].addPoint(iterator, false);
+                                            if(null != heatSeries)
+                                            {
+                                                let localDate = new Date(iterator[0]);
+                                                    localDate.setUTCHours(0);
+                                                let entry = [localDate.getTime(), iterator[1], iterator[2]];
+                                                heatSeries[0].addPoint(entry, false);
+                                            }
                                             if(null != lineSeries)
                                             {
                                                 let localDate = new Date(iterator[0]);
@@ -113,7 +122,7 @@ $(function () {
                                     }
                                 }
                             };
-                            let dateComputed = new Date(date.getTime() - theDay * 3600 * 24 * 1000);
+                            
                             xhttp.open("GET", "onedayraw?date=" + dateComputed.toString(), true);
 
                             xhttp.send();
