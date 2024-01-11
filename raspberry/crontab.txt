@@ -1,4 +1,4 @@
 0 0 * * * sh ~/temperature/raspberry/get_from_github.sh | gawk '{ print strftime("[\%Y-\%m-\%d \%H:\%M:\%S]"), $0 }' | tee ~/get_from_github.log
 10 0 * * * sh ~/temperature/raspberry/relaunch_website.sh | gawk '{ print strftime("[\%Y-\%m-\%d \%H:\%M:\%S]"), $0 }' | tee ~/relaunch_website.log        
-@reboot /bin/sleep 120; sh ~/temperature/raspberry/relaunch_website.sh | gawk '{ print strftime("[\%Y-\%m-\%d \%H:\%M:\%S]"), $0 }' | tee ~/relaunch_website.log
+@reboot /bin/sleep 120 && sh ~/temperature/raspberry/relaunch_website.sh | gawk '{ print strftime("[\%Y-\%m-\%d \%H:\%M:\%S]"), $0 }' | tee ~/relaunch_website.log
 
