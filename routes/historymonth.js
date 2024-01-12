@@ -70,6 +70,9 @@ router.get('/', async function (req, res, next) {
 						docs[doc].date.setMonth(0);
 						serie[cpt] += "[" + JSON.stringify(docs[doc].date.getTime()) + "," + JSON.stringify(dataArray[keys[cpt]]) + "],";
 						if (cpt == 0) {
+							if (date.getHours() > hour) {
+								hour = date.getHours();
+							}
 							if (date.getHours() == hour) {
 								heatmap += "[" + date.getTime() + "," + JSON.stringify(date.getHours()) + "," + JSON.stringify(dataArray[keys[cpt]]) + "],";
 								hour++;
